@@ -1,0 +1,2 @@
+# goojodoq
+buat tugas sekolah
