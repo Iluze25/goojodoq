@@ -1,0 +1,1019 @@
+<!doctype html>
+<html lang="id" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kelas SD Ceria</title>
+    <script src="/_sdk/element_sdk.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap");
+
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+      }
+
+      body {
+        font-family: "Nunito", sans-serif;
+      }
+
+      .app-shell {
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        position: relative;
+      }
+
+      .chalk-pattern {
+        background-image:
+          radial-gradient(
+            circle at 20% 15%,
+            rgba(255, 255, 255, 0.18) 0 2px,
+            transparent 3px
+          ),
+          radial-gradient(
+            circle at 80% 25%,
+            rgba(255, 255, 255, 0.14) 0 2px,
+            transparent 3px
+          ),
+          radial-gradient(
+            circle at 35% 75%,
+            rgba(255, 255, 255, 0.16) 0 2px,
+            transparent 3px
+          ),
+          linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.08) 25%,
+            transparent 25%
+          ),
+          linear-gradient(
+            225deg,
+            rgba(255, 255, 255, 0.06) 25%,
+            transparent 25%
+          );
+        background-size:
+          120px 120px,
+          140px 140px,
+          160px 160px,
+          42px 42px,
+          42px 42px;
+      }
+
+      .float-card {
+        animation: floatIn 0.7s ease both;
+      }
+
+      .float-card:nth-child(2) {
+        animation-delay: 0.12s;
+      }
+
+      .float-card:nth-child(3) {
+        animation-delay: 0.22s;
+      }
+
+      @keyframes floatIn {
+        from {
+          opacity: 0;
+          transform: translateY(18px) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .soft-bounce {
+        animation: softBounce 2.4s ease-in-out infinite;
+      }
+
+      @keyframes softBounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8%);
+        }
+      }
+
+      .status-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        display: inline-block;
+      }
+
+      button,
+      input,
+      textarea,
+      select {
+        outline: none;
+      }
+
+      button:focus-visible,
+      input:focus-visible,
+      textarea:focus-visible,
+      select:focus-visible {
+        box-shadow: 0 0 0 4px rgba(255, 212, 59, 0.75);
+      }
+
+      .tab-active {
+        transform: translateY(-2px);
+      }
+    </style>
+    <style>
+      body {
+        box-sizing: border-box;
+      }
+    </style>
+    <script
+      src="https://cdn.tailwindcss.com/3.4.17"
+      type="text/javascript"
+    ></script>
+    <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  </head>
+  <body class="h-full">
+    <div id="app" class="app-shell chalk-pattern">
+      <header class="relative overflow-hidden">
+        <div class="absolute inset-0 opacity-30">
+          <svg
+            width="100%"
+            height="100%"
+            viewbox="0 0 1200 360"
+            preserveaspectratio="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M0 250 C180 120 300 320 480 180 C640 56 780 210 960 110 C1080 43 1140 83 1200 36 L1200 0 L0 0 Z"
+              fill="#ffffff"
+            ></path>
+          </svg>
+        </div>
+        <div class="relative max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 pt-7 pb-6">
+          <nav
+            class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+            aria-label="Navigasi utama"
+          >
+            <div class="flex items-center gap-3">
+              <div
+                id="logoBubble"
+                class="w-14 h-14 rounded-3xl flex items-center justify-center shadow-lg soft-bounce"
+              >
+                <span class="text-3xl" aria-hidden="true">📚</span>
+              </div>
+              <div>
+                <p
+                  id="teacherBadge"
+                  class="font-extrabold tracking-wide uppercase"
+                ></p>
+                <h1 id="mainTitle" class="font-extrabold leading-tight"></h1>
+              </div>
+            </div>
+            <div
+              class="flex flex-wrap gap-2"
+              role="tablist"
+              aria-label="Pilih bagian"
+            >
+              <button
+                id="overviewTab"
+                type="button"
+                class="tab-active px-4 py-2.5 rounded-2xl font-extrabold shadow-md transition-all"
+                role="tab"
+                aria-selected="true"
+              >
+                Beranda
+              </button>
+              <button
+                id="materialTab"
+                type="button"
+                class="px-4 py-2.5 rounded-2xl font-extrabold shadow-md transition-all"
+                role="tab"
+                aria-selected="false"
+              >
+                Materi
+              </button>
+              <button
+                id="attendanceTab"
+                type="button"
+                class="px-4 py-2.5 rounded-2xl font-extrabold shadow-md transition-all"
+                role="tab"
+                aria-selected="false"
+              >
+                Absensi
+              </button>
+            </div>
+          </nav>
+          <section
+            class="grid lg:grid-cols-[1.2fr_0.8fr] gap-6 items-center mt-8"
+            aria-labelledby="mainTitle"
+          >
+            <div>
+              <p id="subtitle" class="max-w-2xl font-bold leading-relaxed"></p>
+              <div class="flex flex-wrap gap-3 mt-6">
+                <button
+                  id="quickMaterialBtn"
+                  type="button"
+                  class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl font-extrabold shadow-lg transition-all hover:-translate-y-1"
+                >
+                  <i data-lucide="plus-circle" class="w-5 h-5"></i>
+                  <span id="quickMaterialText"></span>
+                </button>
+                <button
+                  id="quickAttendanceBtn"
+                  type="button"
+                  class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl font-extrabold shadow-lg transition-all hover:-translate-y-1"
+                >
+                  <i data-lucide="clipboard-check" class="w-5 h-5"></i> Buka
+                  Absensi
+                </button>
+              </div>
+            </div>
+            <aside
+              class="rounded-[2rem] p-5 shadow-xl border-4 border-dashed"
+              aria-label="Ringkasan kelas hari ini"
+            >
+              <div class="flex items-center justify-between gap-4">
+                <div>
+                  <h2 class="font-extrabold">Hari Ini</h2>
+                  <p class="font-bold opacity-80">
+                    Tema belajar: Lingkungan Sekitar
+                  </p>
+                </div>
+                <div class="text-5xl" aria-hidden="true">🌱</div>
+              </div>
+              <div class="grid grid-cols-3 gap-3 mt-5">
+                <div class="rounded-3xl p-4 text-center shadow-sm">
+                  <p class="font-extrabold text-3xl">4</p>
+                  <p class="font-bold">Materi</p>
+                </div>
+                <div class="rounded-3xl p-4 text-center shadow-sm">
+                  <p id="presentCount" class="font-extrabold text-3xl">5</p>
+                  <p class="font-bold">Hadir</p>
+                </div>
+                <div class="rounded-3xl p-4 text-center shadow-sm">
+                  <p class="font-extrabold text-3xl">08.00</p>
+                  <p class="font-bold">Mulai</p>
+                </div>
+              </div>
+            </aside>
+          </section>
+        </div>
+      </header>
+      <main class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 pb-10">
+        <section
+          id="overviewPanel"
+          class="grid lg:grid-cols-3 gap-5"
+          aria-labelledby="overviewHeading"
+        >
+          <div class="float-card lg:col-span-2 rounded-[2rem] p-6 shadow-xl">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <p class="font-extrabold uppercase tracking-widest opacity-70">
+                  Rencana Belajar
+                </p>
+                <h2 id="overviewHeading" class="font-extrabold mt-1">
+                  Agenda Kelas Hari Ini
+                </h2>
+              </div>
+              <span class="text-4xl" aria-hidden="true">✨</span>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-4 mt-5">
+              <article class="rounded-3xl p-5 border-2">
+                <div class="flex items-center gap-3">
+                  <span
+                    class="w-11 h-11 rounded-2xl flex items-center justify-center text-2xl"
+                    >🔤</span
+                  >
+                  <h3 class="font-extrabold">Bahasa Indonesia</h3>
+                </div>
+                <p class="mt-3 font-semibold opacity-80">
+                  Membaca cerita pendek dan menemukan pesan moral.
+                </p>
+              </article>
+              <article class="rounded-3xl p-5 border-2">
+                <div class="flex items-center gap-3">
+                  <span
+                    class="w-11 h-11 rounded-2xl flex items-center justify-center text-2xl"
+                    >➕</span
+                  >
+                  <h3 class="font-extrabold">Matematika</h3>
+                </div>
+                <p class="mt-3 font-semibold opacity-80">
+                  Latihan penjumlahan dan pengurangan sederhana.
+                </p>
+              </article>
+              <article class="rounded-3xl p-5 border-2">
+                <div class="flex items-center gap-3">
+                  <span
+                    class="w-11 h-11 rounded-2xl flex items-center justify-center text-2xl"
+                    >🌍</span
+                  >
+                  <h3 class="font-extrabold">IPAS</h3>
+                </div>
+                <p class="mt-3 font-semibold opacity-80">
+                  Mengenal lingkungan rumah dan sekolah.
+                </p>
+              </article>
+              <article class="rounded-3xl p-5 border-2">
+                <div class="flex items-center gap-3">
+                  <span
+                    class="w-11 h-11 rounded-2xl flex items-center justify-center text-2xl"
+                    >🎨</span
+                  >
+                  <h3 class="font-extrabold">Kreativitas</h3>
+                </div>
+                <p class="mt-3 font-semibold opacity-80">
+                  Menggambar poster menjaga kebersihan kelas.
+                </p>
+              </article>
+            </div>
+          </div>
+          <aside
+            class="float-card rounded-[2rem] p-6 shadow-xl"
+            aria-label="Catatan guru"
+          >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-12 h-12 rounded-2xl flex items-center justify-center"
+              >
+                <i data-lucide="megaphone" class="w-6 h-6"></i>
+              </div>
+              <h2 class="font-extrabold">Catatan Guru</h2>
+            </div>
+            <div class="mt-5 space-y-3">
+              <div class="rounded-3xl p-4">
+                <p class="font-extrabold">Jangan lupa</p>
+                <p class="font-semibold opacity-80">
+                  Siapkan buku tulis dan pensil warna.
+                </p>
+              </div>
+              <div class="rounded-3xl p-4">
+                <p class="font-extrabold">Kegiatan</p>
+                <p class="font-semibold opacity-80">
+                  Diskusi kelompok kecil selama 15 menit.
+                </p>
+              </div>
+              <div class="rounded-3xl p-4">
+                <p class="font-extrabold">Penutup</p>
+                <p class="font-semibold opacity-80">
+                  Refleksi: hal baik yang dipelajari hari ini.
+                </p>
+              </div>
+            </div>
+          </aside>
+        </section>
+        <section
+          id="materialPanel"
+          class="hidden grid lg:grid-cols-[0.95fr_1.05fr] gap-5"
+          aria-labelledby="materialHeading"
+        >
+          <div class="float-card rounded-[2rem] p-6 shadow-xl">
+            <div class="flex items-center justify-between gap-4">
+              <div>
+                <p class="font-extrabold uppercase tracking-widest opacity-70">
+                  Tambah Materi
+                </p>
+                <h2 id="materialHeading" class="font-extrabold"></h2>
+              </div>
+              <span class="text-4xl" aria-hidden="true">📝</span>
+            </div>
+            <form id="materialForm" class="mt-5 space-y-4">
+              <div>
+                <label for="materialSubject" class="block font-extrabold mb-2"
+                  >Mata Pelajaran</label
+                >
+                <input
+                  id="materialSubject"
+                  name="materialSubject"
+                  type="text"
+                  value="Matematika"
+                  class="w-full rounded-2xl px-4 py-3 border-2 font-bold"
+                />
+              </div>
+              <div>
+                <label for="materialTopic" class="block font-extrabold mb-2"
+                  >Judul Materi</label
+                >
+                <input
+                  id="materialTopic"
+                  name="materialTopic"
+                  type="text"
+                  value="Penjumlahan Bilangan"
+                  class="w-full rounded-2xl px-4 py-3 border-2 font-bold"
+                />
+              </div>
+              <div>
+                <label for="materialNote" class="block font-extrabold mb-2"
+                  >Ringkasan</label
+                >
+                <textarea
+                  id="materialNote"
+                  name="materialNote"
+                  rows="4"
+                  class="w-full rounded-2xl px-4 py-3 border-2 font-bold resize-none"
+                >
+Siswa belajar menjumlahkan angka 1 sampai 20 memakai benda di sekitar kelas.</textarea
+                >
+              </div>
+              <button
+                id="addMaterialButton"
+                type="submit"
+                class="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl font-extrabold shadow-lg transition-all hover:-translate-y-1"
+              >
+                <i data-lucide="sparkles" class="w-5 h-5"></i>
+                <span id="addMaterialButtonText"></span>
+              </button>
+            </form>
+            <p
+              id="materialMessage"
+              class="hidden mt-4 rounded-2xl px-4 py-3 font-extrabold"
+            ></p>
+          </div>
+          <div class="float-card rounded-[2rem] p-6 shadow-xl">
+            <h2 class="font-extrabold">Daftar Materi</h2>
+            <div
+              id="materialList"
+              class="mt-5 space-y-3"
+              aria-live="polite"
+            ></div>
+          </div>
+        </section>
+        <section
+          id="attendancePanel"
+          class="hidden grid lg:grid-cols-[0.9fr_1.1fr] gap-5"
+          aria-labelledby="attendanceHeading"
+        >
+          <div class="float-card rounded-[2rem] p-6 shadow-xl">
+            <div class="flex items-center justify-between gap-4">
+              <div>
+                <p class="font-extrabold uppercase tracking-widest opacity-70">
+                  Absensi Siswa
+                </p>
+                <h2 id="attendanceHeading" class="font-extrabold"></h2>
+              </div>
+              <span class="text-4xl" aria-hidden="true">🙋</span>
+            </div>
+            <form id="studentForm" class="mt-5 space-y-4">
+              <div>
+                <label for="studentName" class="block font-extrabold mb-2"
+                  >Nama Siswa</label
+                >
+                <input
+                  id="studentName"
+                  name="studentName"
+                  type="text"
+                  value="Dina"
+                  class="w-full rounded-2xl px-4 py-3 border-2 font-bold"
+                />
+              </div>
+              <div>
+                <label for="studentStatus" class="block font-extrabold mb-2"
+                  >Status Kehadiran</label
+                >
+                <select
+                  id="studentStatus"
+                  name="studentStatus"
+                  class="w-full rounded-2xl px-4 py-3 border-2 font-bold"
+                >
+                  <option value="Hadir">Hadir</option>
+                  <option value="Izin">Izin</option>
+                  <option value="Sakit">Sakit</option>
+                  <option value="Alpha">Alpha</option>
+                </select>
+              </div>
+              <button
+                id="addStudentButton"
+                type="submit"
+                class="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl font-extrabold shadow-lg transition-all hover:-translate-y-1"
+              >
+                <i data-lucide="user-plus" class="w-5 h-5"></i>
+                <span id="addStudentButtonText"></span>
+              </button>
+            </form>
+            <p
+              id="attendanceMessage"
+              class="hidden mt-4 rounded-2xl px-4 py-3 font-extrabold"
+            ></p>
+          </div>
+          <div class="float-card rounded-[2rem] p-6 shadow-xl">
+            <div
+              class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+            >
+              <h2 class="font-extrabold">Daftar Kehadiran</h2>
+              <div class="rounded-2xl px-4 py-2 font-extrabold">
+                Total Hadir: <span id="attendancePresentTotal">5</span>
+              </div>
+            </div>
+            <div
+              id="attendanceList"
+              class="mt-5 space-y-3"
+              aria-live="polite"
+            ></div>
+          </div>
+        </section>
+      </main>
+      <footer class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 pb-8">
+        <div
+          class="rounded-[2rem] px-6 py-5 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between shadow-lg"
+        >
+          <p class="font-extrabold">
+            Tampilan contoh untuk kegiatan belajar SD yang ceria dan mudah
+            dipahami.
+          </p>
+          <p class="font-bold opacity-80">🌟 Semangat belajar hari ini!</p>
+        </div>
+      </footer>
+    </div>
+    <script>
+      const defaultConfig = {
+        background_color: "#2F7D5A",
+        surface_color: "#FFF7D6",
+        text_color: "#173B2F",
+        primary_action_color: "#FFB703",
+        secondary_action_color: "#3A86FF",
+        font_family: "Baloo 2",
+        font_size: 16,
+        main_title: "Kelas 4 SD Ceria",
+        subtitle:
+          "Ruang belajar digital untuk membantu guru menampilkan materi, agenda kelas, dan absensi siswa dengan suasana yang ramah anak.",
+        teacher_name: "Bu Rani",
+        material_title: "Materi Pembelajaran",
+        attendance_title: "Absensi Harian",
+        add_material_button: "Tambahkan Materi",
+        add_student_button: "Tambahkan Siswa",
+      };
+
+      let materials = [
+        {
+          subject: "Bahasa Indonesia",
+          topic: "Cerita Pendek",
+          note: "Membaca cerita lalu menuliskan tokoh, tempat, dan pesan moral.",
+        },
+        {
+          subject: "Matematika",
+          topic: "Penjumlahan Bilangan",
+          note: "Latihan menghitung menggunakan benda konkret di sekitar kelas.",
+        },
+        {
+          subject: "IPAS",
+          topic: "Lingkungan Sekolah",
+          note: "Mengenal bagian sekolah dan cara menjaga kebersihan bersama.",
+        },
+      ];
+
+      let students = [
+        { name: "Alya", status: "Hadir" },
+        { name: "Bima", status: "Hadir" },
+        { name: "Citra", status: "Izin" },
+        { name: "Doni", status: "Hadir" },
+        { name: "Eka", status: "Sakit" },
+        { name: "Fajar", status: "Hadir" },
+      ];
+
+      const panels = {
+        overview: document.getElementById("overviewPanel"),
+        material: document.getElementById("materialPanel"),
+        attendance: document.getElementById("attendancePanel"),
+      };
+
+      const tabs = {
+        overview: document.getElementById("overviewTab"),
+        material: document.getElementById("materialTab"),
+        attendance: document.getElementById("attendanceTab"),
+      };
+
+      function getConfigValue(config, key) {
+        return config[key] || defaultConfig[key];
+      }
+
+      function showPanel(name) {
+        Object.keys(panels).forEach((key) => {
+          panels[key].classList.toggle("hidden", key !== name);
+          tabs[key].classList.toggle("tab-active", key === name);
+          tabs[key].setAttribute(
+            "aria-selected",
+            key === name ? "true" : "false",
+          );
+        });
+      }
+
+      function statusColor(status) {
+        if (status === "Hadir") return "#2F7D5A";
+        if (status === "Izin") return "#3A86FF";
+        if (status === "Sakit") return "#FFB703";
+        return "#D9534F";
+      }
+
+      function renderMaterials() {
+        const list = document.getElementById("materialList");
+        list.innerHTML = "";
+
+        materials.forEach((item, index) => {
+          const card = document.createElement("article");
+          card.className = "rounded-3xl p-5 border-2 shadow-sm";
+          card.innerHTML = `
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="font-extrabold opacity-70">${item.subject}</p>
+              <h3 class="font-extrabold mt-1">${item.topic}</h3>
+            </div>
+            <span class="rounded-2xl px-3 py-1 font-extrabold">${index + 1}</span>
+          </div>
+          <p class="mt-3 font-semibold opacity-85">${item.note}</p>
+        `;
+          list.appendChild(card);
+        });
+
+        applyCurrentTheme();
+      }
+
+      function renderStudents() {
+        const list = document.getElementById("attendanceList");
+        list.innerHTML = "";
+
+        students.forEach((student) => {
+          const row = document.createElement("article");
+          row.className =
+            "rounded-3xl p-4 border-2 shadow-sm flex items-center justify-between gap-4";
+          row.innerHTML = `
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-11 h-11 rounded-2xl flex items-center justify-center font-extrabold">${student.name.charAt(0).toUpperCase()}</div>
+            <div class="min-w-0">
+              <h3 class="font-extrabold truncate">${student.name}</h3>
+              <p class="font-bold opacity-70">Siswa kelas 4</p>
+            </div>
+          </div>
+          <div class="shrink-0 rounded-2xl px-3 py-2 font-extrabold flex items-center gap-2">
+            <span class="status-dot" style="background:${statusColor(student.status)}"></span>
+            ${student.status}
+          </div>
+        `;
+          list.appendChild(row);
+        });
+
+        const present = students.filter(
+          (student) => student.status === "Hadir",
+        ).length;
+        document.getElementById("attendancePresentTotal").textContent = present;
+        document.getElementById("presentCount").textContent = present;
+        applyCurrentTheme();
+      }
+
+      function showMessage(elementId, text) {
+        const message = document.getElementById(elementId);
+        message.textContent = text;
+        message.classList.remove("hidden");
+        window.setTimeout(() => {
+          message.classList.add("hidden");
+        }, 2500);
+      }
+
+      function applyCurrentTheme() {
+        const config = window.elementSdk
+          ? window.elementSdk.config
+          : defaultConfig;
+        const background = getConfigValue(config, "background_color");
+        const surface = getConfigValue(config, "surface_color");
+        const text = getConfigValue(config, "text_color");
+        const primary = getConfigValue(config, "primary_action_color");
+        const secondary = getConfigValue(config, "secondary_action_color");
+        const font = getConfigValue(config, "font_family");
+        const baseSize = Number(getConfigValue(config, "font_size")) || 16;
+        const fontStack = `${font}, Nunito, sans-serif`;
+
+        document.getElementById("app").style.backgroundColor = background;
+        document.body.style.color = text;
+
+        document.querySelectorAll("h1").forEach((el) => {
+          el.style.fontFamily = fontStack;
+          el.style.fontSize = `${baseSize * 2.25}px`;
+          el.style.color = text;
+        });
+
+        document.querySelectorAll("h2").forEach((el) => {
+          el.style.fontFamily = fontStack;
+          el.style.fontSize = `${baseSize * 1.55}px`;
+          el.style.color = text;
+        });
+
+        document.querySelectorAll("h3").forEach((el) => {
+          el.style.fontFamily = fontStack;
+          el.style.fontSize = `${baseSize * 1.1}px`;
+          el.style.color = text;
+        });
+
+        document
+          .querySelectorAll(
+            "p, label, input, textarea, select, button, span, footer",
+          )
+          .forEach((el) => {
+            el.style.fontFamily = fontStack;
+          });
+
+        document
+          .querySelectorAll("p, label, input, textarea, select")
+          .forEach((el) => {
+            el.style.fontSize = `${baseSize}px`;
+          });
+
+        document.querySelectorAll("button").forEach((el) => {
+          el.style.fontSize = `${baseSize * 0.95}px`;
+        });
+
+        document.getElementById("subtitle").style.fontSize =
+          `${baseSize * 1.18}px`;
+        document.getElementById("teacherBadge").style.fontSize =
+          `${baseSize * 0.78}px`;
+
+        document
+          .querySelectorAll(
+            "main > section > div, main > section > aside, header aside, footer > div",
+          )
+          .forEach((el) => {
+            el.style.backgroundColor = surface;
+            el.style.color = text;
+            el.style.borderColor = primary;
+          });
+
+        document
+          .querySelectorAll(
+            "article, main aside .rounded-3xl, header aside .rounded-3xl",
+          )
+          .forEach((el) => {
+            el.style.backgroundColor = "#FFFFFF";
+            el.style.borderColor = "rgba(23, 59, 47, 0.16)";
+            el.style.color = text;
+          });
+
+        document.querySelectorAll("input, textarea, select").forEach((el) => {
+          el.style.backgroundColor = "#FFFFFF";
+          el.style.color = text;
+          el.style.borderColor = "rgba(23, 59, 47, 0.22)";
+        });
+
+        document.getElementById("logoBubble").style.backgroundColor = primary;
+
+        document.getElementById("quickMaterialBtn").style.backgroundColor =
+          primary;
+        document.getElementById("addMaterialButton").style.backgroundColor =
+          primary;
+        document.getElementById("addStudentButton").style.backgroundColor =
+          primary;
+
+        document.getElementById("quickMaterialBtn").style.color = text;
+        document.getElementById("addMaterialButton").style.color = text;
+        document.getElementById("addStudentButton").style.color = text;
+
+        document.getElementById("quickAttendanceBtn").style.backgroundColor =
+          secondary;
+        document.getElementById("quickAttendanceBtn").style.color = "#FFFFFF";
+
+        Object.keys(tabs).forEach((key) => {
+          const active = tabs[key].getAttribute("aria-selected") === "true";
+          tabs[key].style.backgroundColor = active ? primary : surface;
+          tabs[key].style.color = text;
+        });
+
+        document
+          .querySelectorAll("#materialMessage, #attendanceMessage")
+          .forEach((el) => {
+            el.style.backgroundColor = secondary;
+            el.style.color = "#FFFFFF";
+          });
+
+        document
+          .querySelectorAll(
+            "#attendanceList article > div:first-child > div:first-child",
+          )
+          .forEach((el) => {
+            el.style.backgroundColor = primary;
+            el.style.color = text;
+          });
+
+        document
+          .querySelectorAll(
+            "#materialList article span, #attendancePresentTotal",
+          )
+          .forEach((el) => {
+            el.style.backgroundColor = primary;
+            el.style.color = text;
+          });
+
+        document
+          .querySelectorAll("header aside, main .shadow-xl")
+          .forEach((el) => {
+            el.style.boxShadow = "0 20px 45px rgba(0,0,0,0.18)";
+          });
+      }
+
+      function updateTextFromConfig(config) {
+        document.getElementById("mainTitle").textContent = getConfigValue(
+          config,
+          "main_title",
+        );
+        document.getElementById("subtitle").textContent = getConfigValue(
+          config,
+          "subtitle",
+        );
+        document.getElementById("teacherBadge").textContent =
+          `Guru: ${getConfigValue(config, "teacher_name")}`;
+        document.getElementById("materialHeading").textContent = getConfigValue(
+          config,
+          "material_title",
+        );
+        document.getElementById("attendanceHeading").textContent =
+          getConfigValue(config, "attendance_title");
+        document.getElementById("addMaterialButtonText").textContent =
+          getConfigValue(config, "add_material_button");
+        document.getElementById("addStudentButtonText").textContent =
+          getConfigValue(config, "add_student_button");
+        document.getElementById("quickMaterialText").textContent =
+          getConfigValue(config, "add_material_button");
+      }
+
+      function initElementSdk() {
+        if (!window.elementSdk) {
+          updateTextFromConfig(defaultConfig);
+          applyCurrentTheme();
+          return;
+        }
+
+        window.elementSdk.init({
+          defaultConfig,
+          onConfigChange: async (config) => {
+            updateTextFromConfig(config);
+            applyCurrentTheme();
+          },
+          mapToCapabilities: (config) => ({
+            recolorables: [
+              {
+                get: () =>
+                  config.background_color || defaultConfig.background_color,
+                set: (value) => {
+                  config.background_color = value;
+                  window.elementSdk.setConfig({ background_color: value });
+                },
+              },
+              {
+                get: () => config.surface_color || defaultConfig.surface_color,
+                set: (value) => {
+                  config.surface_color = value;
+                  window.elementSdk.setConfig({ surface_color: value });
+                },
+              },
+              {
+                get: () => config.text_color || defaultConfig.text_color,
+                set: (value) => {
+                  config.text_color = value;
+                  window.elementSdk.setConfig({ text_color: value });
+                },
+              },
+              {
+                get: () =>
+                  config.primary_action_color ||
+                  defaultConfig.primary_action_color,
+                set: (value) => {
+                  config.primary_action_color = value;
+                  window.elementSdk.setConfig({ primary_action_color: value });
+                },
+              },
+              {
+                get: () =>
+                  config.secondary_action_color ||
+                  defaultConfig.secondary_action_color,
+                set: (value) => {
+                  config.secondary_action_color = value;
+                  window.elementSdk.setConfig({
+                    secondary_action_color: value,
+                  });
+                },
+              },
+            ],
+            borderables: [],
+            fontEditable: {
+              get: () => config.font_family || defaultConfig.font_family,
+              set: (value) => {
+                config.font_family = value;
+                window.elementSdk.setConfig({ font_family: value });
+              },
+            },
+            fontSizeable: {
+              get: () => config.font_size || defaultConfig.font_size,
+              set: (value) => {
+                config.font_size = value;
+                window.elementSdk.setConfig({ font_size: value });
+              },
+            },
+          }),
+          mapToEditPanelValues: (config) =>
+            new Map([
+              ["main_title", config.main_title || defaultConfig.main_title],
+              ["subtitle", config.subtitle || defaultConfig.subtitle],
+              [
+                "teacher_name",
+                config.teacher_name || defaultConfig.teacher_name,
+              ],
+              [
+                "material_title",
+                config.material_title || defaultConfig.material_title,
+              ],
+              [
+                "attendance_title",
+                config.attendance_title || defaultConfig.attendance_title,
+              ],
+              [
+                "add_material_button",
+                config.add_material_button || defaultConfig.add_material_button,
+              ],
+              [
+                "add_student_button",
+                config.add_student_button || defaultConfig.add_student_button,
+              ],
+            ]),
+        });
+      }
+
+      document
+        .getElementById("overviewTab")
+        .addEventListener("click", () => showPanel("overview"));
+      document
+        .getElementById("materialTab")
+        .addEventListener("click", () => showPanel("material"));
+      document
+        .getElementById("attendanceTab")
+        .addEventListener("click", () => showPanel("attendance"));
+      document
+        .getElementById("quickMaterialBtn")
+        .addEventListener("click", () => showPanel("material"));
+      document
+        .getElementById("quickAttendanceBtn")
+        .addEventListener("click", () => showPanel("attendance"));
+
+      document
+        .getElementById("materialForm")
+        .addEventListener("submit", (event) => {
+          event.preventDefault();
+
+          const subject = document
+            .getElementById("materialSubject")
+            .value.trim();
+          const topic = document.getElementById("materialTopic").value.trim();
+          const note = document.getElementById("materialNote").value.trim();
+
+          if (!subject || !topic || !note) {
+            showMessage(
+              "materialMessage",
+              "Lengkapi semua kolom materi terlebih dahulu.",
+            );
+            return;
+          }
+
+          materials.unshift({ subject, topic, note });
+          renderMaterials();
+          showMessage(
+            "materialMessage",
+            "Materi berhasil ditambahkan ke tampilan.",
+          );
+          document.getElementById("materialTopic").value = "";
+          document.getElementById("materialNote").value = "";
+        });
+
+      document
+        .getElementById("studentForm")
+        .addEventListener("submit", (event) => {
+          event.preventDefault();
+
+          const name = document.getElementById("studentName").value.trim();
+          const status = document.getElementById("studentStatus").value;
+
+          if (!name) {
+            showMessage(
+              "attendanceMessage",
+              "Masukkan nama siswa terlebih dahulu.",
+            );
+            return;
+          }
+
+          students.unshift({ name, status });
+          renderStudents();
+          showMessage(
+            "attendanceMessage",
+            "Absensi siswa berhasil ditambahkan ke tampilan.",
+          );
+          document.getElementById("studentName").value = "";
+        });
+
+      renderMaterials();
+      renderStudents();
+      initElementSdk();
+
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    </script>
+  </body>
+</html>
